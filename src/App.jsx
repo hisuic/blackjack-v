@@ -234,8 +234,9 @@ export default function App() {
   };
 
   const handleStand = (forcedHand, forcedDeck) => {
-    const currentHand = forcedHand || playerHand;
-    let nextDeck = forcedDeck || deck;
+    const hasForcedHand = Array.isArray(forcedHand);
+    const currentHand = hasForcedHand ? forcedHand : playerHand;
+    let nextDeck = hasForcedHand && forcedDeck ? forcedDeck : deck;
     let nextDealer = [...dealerHand];
 
     setRevealDealer(true);
@@ -420,7 +421,7 @@ export default function App() {
             <button type="button" onClick={handleHit} disabled={!canHit}>
               HIT
             </button>
-            <button type="button" onClick={handleStand} disabled={!canStand}>
+            <button type="button" onClick={() => handleStand()} disabled={!canStand}>
               STAND
             </button>
             <button type="button" onClick={handleRebet} disabled={!canBet || lastBet === 0}>
