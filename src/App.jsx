@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 const INITIAL_BALANCE = 1000;
 const CHIP_VALUES = [5, 25, 100, 500];
@@ -84,6 +84,10 @@ function isBlackjack(hand) {
 
 function formatCard(card) {
   return `${card.rank}${card.suit}`;
+}
+
+function isRedSuit(suit) {
+  return suit === '♥' || suit === '♦';
 }
 
 export default function App() {
@@ -234,7 +238,6 @@ export default function App() {
     let nextDeck = forcedDeck || deck;
     let nextDealer = [...dealerHand];
 
-    setStatus('dealer');
     setRevealDealer(true);
 
     while (handValue(nextDealer).total < 17) {
@@ -248,13 +251,22 @@ export default function App() {
     finalizeRound(handValue(currentHand).total, handValue(nextDealer).total);
   };
 
-  const handleNextRound = () => {
+  const handleNextRound = (fromAuto = false) => {
+    if (status !== 'roundOver') return;
+    if (balance === 0) {
+      setMessage('残高がありません。リセットしてください。');
+      return;
+    }
     setPlayerHand([]);
     setDealerHand([]);
-    setBet(0);
+    if (fromAuto) {
+      setBet(lastBet > balance ? balance : lastBet);
+    } else {
+      setBet(0);
+    }
     setRevealDealer(false);
     setStatus('betting');
-    setMessage(balance === 0 ? '残高がありません。リセットしてください。' : '次のベットを置いてください。');
+    setMessage('次のベットを置いてください。');
   };
 
   const handleRebet = () => {
@@ -279,6 +291,15 @@ export default function App() {
     setStatus('betting');
     setMessage('テーブルに戻ってきました。');
   };
+
+  useEffect(() => {
+    if (status !== 'roundOver') return undefined;
+    if (balance === 0) return undefined;
+    const timer = setTimeout(() => {
+      handleNextRound(true);
+    }, 2200);
+    return () => clearTimeout(timer);
+  }, [status, balance]);
 
   return (
     <div className="app">
@@ -305,12 +326,21 @@ export default function App() {
             {dealerHand.length === 0 && <div className="card ghost" />}
             {dealerHand.map((card, index) => {
               const hidden = !revealDealer && index === 0;
+              const isRed = isRedSuit(card.suit);
               return (
                 <div
                   key={`${card.rank}-${card.suit}-${index}`}
-                  className={`card ${hidden ? 'back' : ''}`}
+                  className={`card ${hidden ? 'back' : ''} ${isRed ? 'red' : ''}`}
                 >
-                  {hidden ? '' : formatCard(card)}
+                  {hidden ? (
+                    ''
+                  ) : (
+                    <>
+                      <span className="corner top">{formatCard(card)}</span>
+                      <span className="center">{card.suit}</span>
+                      <span className="corner bottom">{formatCard(card)}</span>
+                    </>
+                  )}
                 </div>
               );
             })}
@@ -325,8 +355,13 @@ export default function App() {
           <div className="cards">
             {playerHand.length === 0 && <div className="card ghost" />}
             {playerHand.map((card, index) => (
-              <div key={`${card.rank}-${card.suit}-${index}`} className="card">
-                {formatCard(card)}
+              <div
+                key={`${card.rank}-${card.suit}-${index}`}
+                className={`card ${isRedSuit(card.suit) ? 'red' : ''}`}
+              >
+                <span className="corner top">{formatCard(card)}</span>
+                <span className="center">{card.suit}</span>
+                <span className="corner bottom">{formatCard(card)}</span>
               </div>
             ))}
           </div>
