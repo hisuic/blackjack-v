@@ -4,6 +4,7 @@ const INITIAL_BALANCE = 1000;
 const CHIP_VALUES = [5, 25, 100, 500];
 const BLACKJACK_PAYOUT = 1.5;
 const DECK_REFRESH_THRESHOLD = 18;
+const CURRENCY = '$';
 
 const SUITS = [
   { symbol: '♠', name: 'Spades' },
@@ -311,7 +312,7 @@ export default function App() {
         </div>
         <div className="balance">
           <span className="label">Balance</span>
-          <strong>¥{availableBalance.toLocaleString()}</strong>
+          <strong>{CURRENCY}{availableBalance.toLocaleString()}</strong>
         </div>
       </header>
 
@@ -375,11 +376,11 @@ export default function App() {
             <div className="bet-info">
               <div>
                 <span className="label">Current Bet</span>
-                <strong>¥{bet.toLocaleString()}</strong>
+                <strong>{CURRENCY}{bet.toLocaleString()}</strong>
               </div>
               <div>
                 <span className="label">Last Bet</span>
-                <strong>¥{lastBet.toLocaleString()}</strong>
+                <strong>{CURRENCY}{lastBet.toLocaleString()}</strong>
               </div>
             </div>
 
