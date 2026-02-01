@@ -380,7 +380,7 @@ export default function App() {
                   onClick={() => handleAddChip(value)}
                   disabled={!canBet}
                 >
-                  ¥{value}
+                  ${value}
                 </button>
               ))}
               <button
