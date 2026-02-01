@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 
 const INITIAL_BALANCE = 2000;
 const CHIP_VALUES = [5, 25, 100, 500];
@@ -253,7 +253,7 @@ export default function App() {
     finalizeRound(handValue(currentHand).total, handValue(nextDealer).total);
   };
 
-  const handleNextRound = (fromAuto = false) => {
+  const handleNextRound = () => {
     if (status !== 'roundOver') return;
     if (balance === 0) {
       setMessage('残高がありません。リセットしてください。');
@@ -261,11 +261,7 @@ export default function App() {
     }
     setPlayerHand([]);
     setDealerHand([]);
-    if (fromAuto) {
-      setBet(lastBet > balance ? balance : lastBet);
-    } else {
-      setBet(0);
-    }
+    setBet(0);
     setRevealDealer(false);
     setStatus('betting');
     setMessage('次のベットを置いてください。');
@@ -293,15 +289,6 @@ export default function App() {
     setStatus('betting');
     setMessage('テーブルに戻ってきました。');
   };
-
-  useEffect(() => {
-    if (status !== 'roundOver') return undefined;
-    if (balance === 0) return undefined;
-    const timer = setTimeout(() => {
-      handleNextRound(true);
-    }, 2200);
-    return () => clearTimeout(timer);
-  }, [status, balance]);
 
   return (
     <div className="app">
