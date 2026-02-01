@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 
-const INITIAL_BALANCE = 1000;
+const INITIAL_BALANCE = 2000;
 const CHIP_VALUES = [5, 25, 100, 500];
 const BLACKJACK_PAYOUT = 1.5;
 const DECK_REFRESH_THRESHOLD = 18;
