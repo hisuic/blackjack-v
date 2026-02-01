@@ -58,6 +58,7 @@ body::before {
   display: flex;
   flex-direction: column;
   gap: 32px;
+  min-height: 100svh;
 }
 
 .header {
@@ -101,6 +102,7 @@ body::before {
 .table {
   display: grid;
   gap: 24px;
+  flex: 1;
 }
 
 .hand {
@@ -375,15 +377,116 @@ button:not(:disabled):hover {
 
 @media (max-width: 720px) {
   .app {
-    padding: 24px 16px 40px;
+    padding: 20px 14px 28px;
+    gap: 20px;
   }
 
   .controls {
-    padding: 20px;
+    padding: 18px;
   }
 
   .card {
-    width: 64px;
-    height: 92px;
+    width: 60px;
+    height: 86px;
+  }
+}
+
+@media (max-width: 540px), (max-height: 740px) {
+  .app {
+    padding: 16px 12px 18px;
+    gap: 16px;
+    height: 100svh;
+  }
+
+  .header {
+    gap: 12px;
+  }
+
+  .header h1 {
+    font-size: 1.6rem;
+  }
+
+  .label {
+    letter-spacing: 1.5px;
+    font-size: 0.62rem;
+  }
+
+  .balance {
+    padding: 12px 14px;
+    min-width: 140px;
+  }
+
+  .balance strong {
+    font-size: 1.1rem;
+  }
+
+  .table {
+    gap: 16px;
+  }
+
+  .hand {
+    padding: 16px;
+    border-radius: 20px;
+  }
+
+  .hand-header {
+    margin-bottom: 10px;
+  }
+
+  .hand h2 {
+    font-size: 0.95rem;
+  }
+
+  .score {
+    font-size: 1rem;
+  }
+
+  .cards {
+    gap: 8px;
+    min-height: 72px;
+  }
+
+  .card {
+    width: 52px;
+    height: 76px;
+    border-radius: 12px;
+    font-size: 0.9rem;
+  }
+
+  .card .center {
+    font-size: 1.5rem;
+  }
+
+  .controls {
+    padding: 16px;
+    border-radius: 22px;
+    gap: 16px;
+  }
+
+  .message {
+    font-size: 0.9rem;
+    padding-bottom: 8px;
+  }
+
+  .bet-info {
+    grid-template-columns: repeat(2, minmax(120px, 1fr));
+  }
+
+  .chip {
+    padding: 8px 12px;
+    font-size: 0.85rem;
+  }
+
+  .actions {
+    grid-template-columns: repeat(2, minmax(120px, 1fr));
+  }
+
+  button {
+    padding: 10px 14px;
+    font-size: 0.9rem;
+  }
+
+  .footer {
+    display: none;
   }
 }
